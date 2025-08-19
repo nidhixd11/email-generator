@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Email Writer (Spring Boot + Gemini)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- jQuery (needed because your script uses $) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        :root { --gap: 12px; }
+        body { font-family: system-ui, Arial, sans-serif; max-width: 900px; margin: 28px auto; padding: 0 16px; }
+        h1   { font-size: 1.3rem; margin-bottom: 16px; }
+        label { display:block; margin: 10px 0 6px; font-weight: 600; }
+        textarea, input, select { width: 100%; box-sizing: border-box; padding: 10px; font-size: 1rem; }
+        textarea { min-height: 180px; resize: vertical; }
+        .row { display: flex; gap: var(--gap); }
+        .row > div { flex: 1; }
+        button { margin-top: 14px; padding: 10px 14px; font-size: 1rem; cursor: pointer; }
+        #result { white-space: pre-wrap; background: #fafafa; border: 1px solid #ddd; padding: 12px; min-height: 90px; }
+        .muted { color: #777; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+<h1>📧 Email Writer (Spring Boot + Gemini)</h1>
+
+<label for="content">Email content</label>
+<textarea id="content" placeholder="Paste the email you want to reply to..."></textarea>
+
+<div class="row">
+    <div>
+        <label for="tone">Tone</label>
+        <select id="tone">
+            <option value="formal">formal</option>
+            <option value="friendly">friendly</option>
+            <option value="concise">concise</option>
+        </select>
+    </div>
+    <div>
+        <label for="server">Server <span class="muted">(leave blank when served by Spring)</span></label>
+        <input id="server" type="text" placeholder="http://localhost:8080" />
+    </div>
+</div>
+
+<button id="generateBtn" type="button">Generate Reply</button>
+
+<h3>Result</h3>
+<div id="result">Your AI-generated reply will appear here…</div>
+
+<script>
+    function apiBase() {
+        const v = ($("#server").val() || "").trim();
+        return v ? v.replace(/\/+$/, "") : ""; // '' means same origin (Spring serves index.html)
+    }
+
+    function postJson(url, data) {
+        return $.ajax({
+            url,
+            method: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "text" // our backend returns plain text
+        });
+    }
+
+    $("#generateBtn").on("click", async function () {
+        const btn = $(this);
+        const prompt = $("#content").val().trim();
+        const tone   = $("#tone").val() || "formal";
+
+        if (!prompt) {
+            $("#result").text("Please paste some email content first.");
+            return;
+        }
+
+        const base = apiBase();
+        const url  = (base ? base : "") + "/api/email/generate";
+
+        btn.prop("disabled", true);
+        $("#result").text("Generating…");
+
+        try {
+            const reply = await postJson(url, { prompt, tone });
+            $("#result").text(reply || "(empty response)");
+        } catch (e) {
+            // If backend returns JSON error, show something readable
+            const msg = e?.responseText || e?.statusText || e?.toString() || "Unknown error";
+            $("#result").text("Request failed: " + msg);
+        } finally {
+            btn.prop("disabled", false);
+        }
+    });
+</script>
+</body>
+</html>
