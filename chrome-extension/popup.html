@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Email Reply Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 320px;
+      padding: 15px;
+    }
+
+    h3 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    textarea, select, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #result {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f2f2f2;
+      min-height: 50px;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h3>AI Email Reply Generator</h3>
+
+  <textarea id="emailContent" rows="6" placeholder="Paste email content here..."></textarea>
+
+  <select id="tone">
+    <option value="professional">Professional</option>
+    <option value="friendly">Friendly</option>
+    <option value="formal">Formal</option>
+    <option value="short">Short</option>
+  </select>
+
+  <button id="generateBtn">Generate Reply</button>
+
+  <div id="result">Generated reply will appear here.</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

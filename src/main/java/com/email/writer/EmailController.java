@@ -25,6 +25,19 @@ public class EmailController {
             tone = "professional";
         }
 
-        return "Generated " + tone + " reply for: " + emailContent;
+        tone = tone.toLowerCase();
+
+        if (tone.equals("friendly")) {
+            return "Hey, thanks for reaching out! Tomorrow works for me. Let me know what time is convenient for you, and I’ll be happy to discuss the project.";
+        } 
+        else if (tone.equals("formal")) {
+            return "Dear Sir/Madam, thank you for your email. I would be available to discuss the project tomorrow. Kindly let me know a suitable time for the meeting.";
+        } 
+        else if (tone.equals("short")) {
+            return "Sure, tomorrow works. Please let me know the time.";
+        } 
+        else {
+            return "Hi, thank you for your email. Sure, we can schedule a meeting to discuss the project. Please let me know a convenient time, and I will be happy to join.";
+        }
     }
 }

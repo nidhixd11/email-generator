@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "AI Email Reply Generator",
+  "version": "1.0",
+  "description": "Chrome extension popup connected to a Spring Boot backend for generating email replies.",
+  "permissions": ["activeTab"],
+  "host_permissions": ["http://localhost:8080/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Email Reply Generator"
+  }
+}
