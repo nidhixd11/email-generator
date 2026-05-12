@@ -1,12 +1,23 @@
 package com.email.writer;
 
 public class EmailRequest {
-    private String prompt;
+
+    private String emailContent;
     private String tone;
 
-    public String getPrompt() { return prompt; }
-    public void setPrompt(String prompt) { this.prompt = prompt; }
+    public String getEmailContent() {
+        return emailContent;
+    }
 
-    public String getTone() { return tone; }
-    public void setTone(String tone) { this.tone = tone; }
+    public void setEmailContent(String emailContent) {
+        this.emailContent = emailContent;
+    }
+
+    public String getTone() {
+        return tone;
+    }
+
+    public void setTone(String tone) {
+        this.tone = tone;
+    }
 }
